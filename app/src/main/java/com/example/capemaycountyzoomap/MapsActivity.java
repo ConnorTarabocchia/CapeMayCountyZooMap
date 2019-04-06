@@ -44,27 +44,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //google_maps_api.xml file in the app/res/values directory
 
         mMap = googleMap;
-
         // Adds a marker
         //mMap.addMarker(new MarkerOptions().position(zoo).title("Marker in Zoo"));
         LatLng zoo = new LatLng(39.10, -74.81); //lat and lng of cape may county zoo
+        LatLng pic = new LatLng(39.101451, -74.815200);
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(zoo));  //moves camera to the coordinates of zoo
         mMap.getUiSettings().setRotateGesturesEnabled(false);   //prevents user from rotating with a gesture
-        mMap.setMinZoomPreference(16);                          //minimum zoom level so user cant see outside zoo boundaries
-
-        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.zoomap); //converts the map png to bitmap format
+        mMap.setMinZoomPreference(15.8f);                          //minimum zoom level so user cant see outside zoo boundaries
+        //mMap.setMapType(2);
+        //Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.zoomap); //converts the map png to bitmap format
 
         GroundOverlayOptions gOO = new GroundOverlayOptions()      //used for overlaying the image
-            .image(BitmapDescriptorFactory.fromBitmap(bmp))        //calls the bitmap image bmp                                                         //requires more method calls to set required settings
-            .position(zoo, 1000f, 1000f);                   //This needs to be adjusted, check the API for parameters
+            .image(BitmapDescriptorFactory.fromResource(R.drawable.zoomap50))        //calls the bitmap image bmp                                                         //requires more method calls to set required settings
+            .position(pic, 700f, 425f)       //This needs to be adjusted, check the API for parameters
+            .bearing(270)
+            //.transparency(0.7f);
+        ;
         mMap.addGroundOverlay(gOO);     //ads the overlay to the map
 
 
         // Create a LatLngBounds that locks the user from moving the map outside of the zoo
         //using coordinates from 2 corners around the zoo
         LatLngBounds ZOO = new LatLngBounds(
-                new LatLng(39.1, -74.815),new LatLng(39.103, -74.812));
+                new LatLng(39.1, -74.815),new LatLng(39.1045, -74.812));
         mMap.setLatLngBoundsForCameraTarget(ZOO);
 
         //Changes the camera bearing to be in line with the overlay

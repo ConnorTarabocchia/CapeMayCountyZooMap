@@ -1,4 +1,5 @@
 package com.example.capemaycountyzoomap;
+import android.Manifest;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.FragmentActivity;
@@ -48,26 +49,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //mMap.addMarker(new MarkerOptions().position(zoo).title("Marker in Zoo"));
         LatLng zoo = new LatLng(39.10, -74.81); //lat and lng of cape may county zoo
         LatLng pic = new LatLng(39.101451, -74.815200);
+        LatLng backing = new LatLng(39.101954,-74.8152057);
+
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(zoo));  //moves camera to the coordinates of zoo
         mMap.getUiSettings().setRotateGesturesEnabled(false);   //prevents user from rotating with a gesture
-        mMap.setMinZoomPreference(15.8f);                          //minimum zoom level so user cant see outside zoo boundaries
+        mMap.setMinZoomPreference(17.2f);
+//minimum zoom level so user cant see outside zoo boundaries
+           // mMap.setMyLocationEnabled(true);
         //mMap.setMapType(2);
         //Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.zoomap); //converts the map png to bitmap format
+
+        GroundOverlayOptions backgroundGoo = new GroundOverlayOptions()      //used for overlaying the image
+                .image(BitmapDescriptorFactory.fromResource(R.drawable.backdrop))        //calls the bitmap image bmp                                                         //requires more method calls to set required settings
+                .position(backing, 1600f, 1600f)       //This needs to be adjusted, check the API for parameters
+                .bearing(270);
+        //.transparency(0.7f);
+        mMap.addGroundOverlay(backgroundGoo);     //ads the overlay to the map
 
         GroundOverlayOptions gOO = new GroundOverlayOptions()      //used for overlaying the image
             .image(BitmapDescriptorFactory.fromResource(R.drawable.zoomap50))        //calls the bitmap image bmp                                                         //requires more method calls to set required settings
             .position(pic, 700f, 425f)       //This needs to be adjusted, check the API for parameters
-            .bearing(270)
+            .bearing(270);
             //.transparency(0.7f);
-        ;
-        mMap.addGroundOverlay(gOO);     //ads the overlay to the map
+        mMap.addGroundOverlay(gOO);
+        //ads the overlay to the map
+
 
 
         // Create a LatLngBounds that locks the user from moving the map outside of the zoo
         //using coordinates from 2 corners around the zoo
         LatLngBounds ZOO = new LatLngBounds(
-                new LatLng(39.1, -74.815),new LatLng(39.1045, -74.812));
+                new LatLng(39.0995, -74.8152),new LatLng(39.1035, -74.81495));
         mMap.setLatLngBoundsForCameraTarget(ZOO);
 
         //Changes the camera bearing to be in line with the overlay
